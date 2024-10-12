@@ -1,36 +1,17 @@
 import { reservas } from './model';
 
 class Reserva {
-  tipoHabitacion: string;
-  pax: number;
-  noches: number;
-  precioSinIVa: number;
-  cargosAdicionales: number;
-  precioConIva: number;
-  constructor(
-    tipoHabitacion: string,
-    pax: number,
-    noches: number,
-    precioSinIVa: number,
-    cargosAdicionales: number,
-    precioConIva: number
-  ) {
-    this.tipoHabitacion = tipoHabitacion;
-    this.pax = pax;
-    this.noches = noches;
-    this.precioSinIVa = precioSinIVa;
-    this.cargosAdicionales = cargosAdicionales;
-    this.precioConIva = precioConIva;
+  constructor(cargoAdicional: number) {
+    this.cargoAdicional = cargoAdicional;
+    this.total = 0;
+    this.subtotal = 0;
   }
-  calcularSubtotal() {
-    const listado = reservas.forEach((reserva) => {
-      console.log(reserva);
-    });
-    console.log(listado);
+  calcularTotal() {
+    console.log((this.total = this.subtotal + this.cargoAdicional));
   }
 }
 /* CASO 1 */
 // Cliente particular
-const reservaClienteParticular = new Reserva('suite', 2, 5, 500, 40, 21);
+const reservaClienteParticular = new Reserva(40);
 console.log(reservaClienteParticular);
-console.log(reservaClienteParticular.calcularSubtotal());
+console.log(reservaClienteParticular.calcularTotal());
