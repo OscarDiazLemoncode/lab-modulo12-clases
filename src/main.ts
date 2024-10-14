@@ -4,13 +4,13 @@ class ReservaBase {
   reservas: Reserva[];
   precioHabitacionSuite: number;
   precioHabitacionStandar: number;
-  subtotal: number;
+  /* subtotal: number; */
   cargoAdicional: number;
   constructor(reservas: Reserva[], cargoAdicional: number) {
     this.reservas = reservas;
     this.precioHabitacionSuite = 150;
     this.precioHabitacionStandar = 100;
-    this.subtotal = 0;
+    /* s */
     this.cargoAdicional = cargoAdicional;
   }
   calcularSubTotal() {
@@ -19,11 +19,13 @@ class ReservaBase {
         reserva.tipoHabitacion === 'standard'
           ? this.precioHabitacionStandar
           : this.precioHabitacionSuite;
-      const subtotalReserva = precioPorHabitacion * reserva.noches;
+      const cargoPorPersonasAdicionales =
+        (reserva.pax - 1) * this.cargoAdicional * reserva.noches;
+      const subtotalReserva =
+        precioPorHabitacion * reserva.noches + cargoPorPersonasAdicionales;
       console.log(reserva, acc, subtotalReserva);
       return acc + subtotalReserva;
     }, 0);
-    return this.subtotal;
   }
 }
 /* CASO 1 */
@@ -34,9 +36,18 @@ class ReservaClienteParticular extends ReservaBase {
     super(reservas, cargoAdicional);
     this.cargoAdicional = cargoAdicional;
   }
+  calcularTotal(): number {
+    const subtotal = this.calcularSubTotal();
+    const iva = (subtotal * 21) / 100;
+    console.log(subtotal + iva);
+    return subtotal + iva;
+  }
 }
 const reservaClienteParticular = new ReservaClienteParticular(reservas, 40);
-console.log(reservaClienteParticular.calcularSubTotal());
+console.log(
+  `Subtotal sin IVA=> ${reservaClienteParticular.calcularSubTotal()}€`
+);
+console.log(`TOTAL sin IVA=> ${reservaClienteParticular.calcularTotal()}€`);
 
 /* CASO 2 */
 // Tour operador
